@@ -1,0 +1,73 @@
+project:
+  type: book
+
+csl: springer-lecture-notes-in-computer-science.csl
+
+book:
+  title: "TEMPLATE"
+  author: "JOHN DOE"
+  date: "2026-04-06"
+  cover-image: images/notebook-50percent.png
+  cover-image-alt: |
+    An inviting workspace featuring a laptop displaying code, a steaming ceramic mug, a physical
+    notebook, and a small potted plant under soft, diffused light.
+  favicon: images/coffee-icon-64.png
+  reader-mode: true
+  repo-url: https://github.com/JHON_DOE/REPO
+  page-footer:
+    center: 
+      - href: LICENSE.qmd
+  sidebar: 
+    collapse-level: 1
+    tools: 
+      - icon: house
+        href: https://MY.WEBSIDE.COM
+      - icon: lightbulb
+        href: https://MY.WEBSIDE.COM/TEMPLATE/
+  chapters:
+    - index.qmd
+
+# pdf:
+#   papersize: a4
+#   fontsize: 12pt
+#   toc: true
+#   toc-title: Inhalt
+#   toc-depth: 3
+#   number-sections: true
+#   colorlinks: true
+#   link-citations: true
+#   include-in-header: 
+#     text: |
+#       \usepackage{svg}
+#       \usepackage{a4wide}
+#       \usepackage{fancyhdr}
+#       \pagestyle{fancy}
+#       \fancyhead[L]{ {{< meta title >}} }
+#       \fancyhead[C]{}
+#       \fancyhead[R]{\thepage}
+#       \fancyfoot[C]{}    
+#       \fancyfoot[R]{}  
+#   code-line-numbers: true
+#   output: true
+
+
+format:
+  html:
+    toc: true
+    toc-expand: 2
+    toc-depth: 5
+    theme:
+      light: brand
+      dark: darkly
+    css: styles.css
+    code-line-numbers: true
+    html-math-method: katex
+    number-sections: true
+    number-depth: 3
+
+editor:
+  markdown:
+    wrap: 100
+
+exceute:
+  freeze: auto

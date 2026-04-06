@@ -1,0 +1,5 @@
+# Template {.unnumbered}
+
+This is a Quarto notebook.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
