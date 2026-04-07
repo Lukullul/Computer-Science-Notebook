@@ -22,7 +22,7 @@ book:
     collapse-level: 1
     tools: 
       - icon: house
-        href: https://github.com/Lukullul
+        href: https://lukullul.github.io
   chapters:
     - index.qmd
 
