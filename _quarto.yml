@@ -27,7 +27,10 @@ book:
     - index.qmd
     - part: Linux
       chapters: 
-      - qmd/linux-lpic-cheat-sheet.qmd
+        - qmd/linux-lpic-cheat-sheet.qmd
+    - part: Computer Systems
+      chapters: 
+        - qmd/computer-systems-formulas.qmd
 
 # pdf:
 #   papersize: a4

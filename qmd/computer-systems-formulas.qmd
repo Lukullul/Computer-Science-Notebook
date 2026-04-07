@@ -1,0 +1,144 @@
+# Computer Systems Formulas {#sec-comsys-cheat-formulas .unnumbered}
+
+Cycle time vs clock frequency
+
+$$
+T_{CLK} = \frac{1}{f_{CLK}}
+$$
+
+## Runtime {#sec-comsys-cheat-runtime}
+
+The runtime for machine $A$ with the program $P$ and input $I$
+
+$$
+t_{ex}(A,P,I)
+$$
+
+## Performance {#sec-comsys-cheat-perform}
+
+$$
+p(A,P,I) := \frac{1}{t_{ex}(A,P,I)}
+$$
+
+The relation between to performances:
+
+$$
+r(A,B) = \frac{p(A,P,I)}{p(B,P,I)} = \frac{t_{ex}(B,P,I)}{t_{ex}(A,P,I)}
+$$
+
+### Mean values
+
+$$
+\overline{t_{ex}} := \frac{1}{n} \sum_{k=1}^n t_{ex}(M,P_k,I_k)
+$$
+
+The resulting mean performance
+
+$$
+\overline{p} = \frac{1}{\overline{t_{ex}}}
+$$
+
+Mean with user profile:
+
+$$
+\widetilde{t_{ex}} := \sum_{i=1}^n w_{k,i} \cdot t_{ex}(M,P_i,I_i)
+$$
+
+### Normalized values
+
+Value relative to reference machine:
+
+$$
+\lVert t_{ex} (M,P,I) \rVert := \frac{t_{ex}(M,P,I)}{t_{ex}(M_{ref},P,I)}
+$$
+
+Use of geometric mean, because usually the reference machine lacks of some benchmark values
+
+$$
+\overline{t_{ex}}_{geom}(M) := \sqrt[{n}]{\prod _{k=1}^{n}t_{ex}(M, P_k, I_k)}
+$$
+
+$$
+\lVert \overline{t_{ex}}_{geom}(M) \rVert = \sqrt[{n}]{\prod_{k=1}^{n} \frac{t_{ex}(M, P_k, I_k)}{t_{ex}(M_{ref}, P_k, I_k)}}
+$$
+
+## MIPS {#sec-comsys-cheat-mips}
+
+Millions instruction per second
+
+$$
+MIPS(P) := \frac{IC(P) \cdot 10^{-6}}{t_{ex}(P)}
+$$
+
+### Maximum performance
+
+$$
+L_{max \varnothing}(M) = \frac{1}{CPI(M) \cdot T_{CLK}}
+$$
+
+$$
+IPC_{max}(M) = \frac{1}{CPI_{min}(M)}
+$$
+
+$$
+L_{max}(M) \leq \frac{IPC_{max}(M)}{T_{CLK}} \tag{1}
+$$
+
+## Program-Depending Performance Model {#sec-comsys-cheat-prog-depending}
+
+Runtime calculation
+
+$$
+t_{ex} = IC \cdot CPI \cdot T_{CLK} = T_{CLK} \cdot \sum_i CPI_i \cdot IC_i
+$$
+
+Sum of instruction count $IC$ and cycle per instruction $CPI$
+
+$$
+\begin{array}{rcl}
+IC & := & \sum_i IC_i \\
+CPI & : = & \sum_i CPI_i \frac{IC_i}{IC}
+\end{array}
+$$
+
+## Storage Bandwidth {#sec-comsys-cheat-sorage-bandwidht}
+
+with:
+
+-   $L_{max \varnothing}(M)$: theoretical maximum performance
+
+-   $S_{req}(M)$: memory usage
+
+$$
+SB_{max \varnothing}(M) = L_{max \varnothing}(M) \cdot S_{req}(M) \text{  }[\text{Byte}/\text{s}]
+$$
+
+## Parallelization {#sec-comsys-cheat-parallel}
+
+### Speedup
+
+$$
+S_p(M_p, P_{\parallel}) = \frac{t_{ex}(M_1, P_s)}{t_{ex}(M_p, P_{\parallel})}
+$$
+
+### Efficiency
+
+$$
+E_p(M_p, P_{\parallel}) := \frac{S_p(M_p, P_{\parallel})}{p} \le 1
+$$
+
+### Amdahl's Law
+
+with:
+
+-   $A_s$: serial ratio
+
+-   $A_{\parallel}$: parallel ratio
+
+-   $p$: processor count
+
+-   $o(p)$: overhead
+
+$$
+S = \frac{1}{A_s + \frac{A_{\parallel}}{p} + o(p)}
+$$

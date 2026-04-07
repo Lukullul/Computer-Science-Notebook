@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Lukas Mensch">
-<meta name="dcterms.date" content="2026-04-06">
 
-<title>Computer Science Notebook</title>
+<title>Computer Systems Formulas – Computer Science Notebook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,29 +23,29 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./qmd/linux-lpic-cheat-sheet.html" rel="next">
-<link href="./images/coffee-icon-64.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-785a97f31b5b63a08458a4839025b956.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-f3d026ef707c7ce16c51404e637f5df3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-785a97f31b5b63a08458a4839025b956.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../qmd/linux-lpic-cheat-sheet.html" rel="prev">
+<link href="../images/coffee-icon-64.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-785a97f31b5b63a08458a4839025b956.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-f3d026ef707c7ce16c51404e637f5df3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-785a97f31b5b63a08458a4839025b956.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -76,8 +74,51 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -251,7 +292,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/computer-systems-formulas.html">Computer Systems</a></li><li class="breadcrumb-item"><a href="../qmd/computer-systems-formulas.html">Computer Systems Formulas</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -266,7 +307,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Computer Science Notebook</a> 
+      <a href="../">Computer Science Notebook</a> 
         <div class="sidebar-tools-main tools-wide">
     <a href="https://lukullul.github.io" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-house"></i></a>
     <a href="https://github.com/Lukullul/Computer-Science-Notebook" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
@@ -288,7 +329,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -303,7 +344,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./qmd/linux-lpic-cheat-sheet.html" class="sidebar-item-text sidebar-link">
+  <a href="../qmd/linux-lpic-cheat-sheet.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Linux LPIC Cheat-Sheet</span></a>
   </div>
 </li>
@@ -311,16 +352,16 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Computer Systems</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./qmd/computer-systems-formulas.html" class="sidebar-item-text sidebar-link">
+  <a href="../qmd/computer-systems-formulas.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Computer Systems Formulas</span></a>
   </div>
 </li>
@@ -336,7 +377,24 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#home" id="toc-home" class="nav-link active" data-scroll-target="#home">Home</a></li>
+  <li><a href="#sec-comsys-cheat-runtime" id="toc-sec-comsys-cheat-runtime" class="nav-link active" data-scroll-target="#sec-comsys-cheat-runtime">Runtime</a></li>
+  <li><a href="#sec-comsys-cheat-perform" id="toc-sec-comsys-cheat-perform" class="nav-link" data-scroll-target="#sec-comsys-cheat-perform">Performance</a>
+  <ul>
+  <li><a href="#mean-values" id="toc-mean-values" class="nav-link" data-scroll-target="#mean-values">Mean values</a></li>
+  <li><a href="#normalized-values" id="toc-normalized-values" class="nav-link" data-scroll-target="#normalized-values">Normalized values</a></li>
+  </ul></li>
+  <li><a href="#sec-comsys-cheat-mips" id="toc-sec-comsys-cheat-mips" class="nav-link" data-scroll-target="#sec-comsys-cheat-mips">MIPS</a>
+  <ul>
+  <li><a href="#maximum-performance" id="toc-maximum-performance" class="nav-link" data-scroll-target="#maximum-performance">Maximum performance</a></li>
+  </ul></li>
+  <li><a href="#sec-comsys-cheat-prog-depending" id="toc-sec-comsys-cheat-prog-depending" class="nav-link" data-scroll-target="#sec-comsys-cheat-prog-depending">Program-Depending Performance Model</a></li>
+  <li><a href="#sec-comsys-cheat-sorage-bandwidht" id="toc-sec-comsys-cheat-sorage-bandwidht" class="nav-link" data-scroll-target="#sec-comsys-cheat-sorage-bandwidht">Storage Bandwidth</a></li>
+  <li><a href="#sec-comsys-cheat-parallel" id="toc-sec-comsys-cheat-parallel" class="nav-link" data-scroll-target="#sec-comsys-cheat-parallel">Parallelization</a>
+  <ul>
+  <li><a href="#speedup" id="toc-speedup" class="nav-link" data-scroll-target="#speedup">Speedup</a></li>
+  <li><a href="#efficiency" id="toc-efficiency" class="nav-link" data-scroll-target="#efficiency">Efficiency</a></li>
+  <li><a href="#amdahls-law" id="toc-amdahls-law" class="nav-link" data-scroll-target="#amdahls-law">Amdahl’s Law</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -344,28 +402,16 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/computer-systems-formulas.html">Computer Systems</a></li><li class="breadcrumb-item"><a href="../qmd/computer-systems-formulas.html">Computer Systems Formulas</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Computer Science Notebook</h1>
+<h1 class="title"><span id="sec-comsys-cheat-formulas" class="quarto-section-identifier">Computer Systems Formulas</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Lukas Mensch </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 6, 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -375,13 +421,128 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Cycle time vs clock frequency</p>
+<p><span class="math display">
+T_{CLK} = \frac{1}{f_{CLK}}
+</span></p>
+<section id="sec-comsys-cheat-runtime" class="level2">
+<h2 class="anchored" data-anchor-id="sec-comsys-cheat-runtime">Runtime</h2>
+<p>The runtime for machine <span class="math inline">A</span> with the program <span class="math inline">P</span> and input <span class="math inline">I</span></p>
+<p><span class="math display">
+t_{ex}(A,P,I)
+</span></p>
+</section>
+<section id="sec-comsys-cheat-perform" class="level2">
+<h2 class="anchored" data-anchor-id="sec-comsys-cheat-perform">Performance</h2>
+<p><span class="math display">
+p(A,P,I) := \frac{1}{t_{ex}(A,P,I)}
+</span></p>
+<p>The relation between to performances:</p>
+<p><span class="math display">
+r(A,B) = \frac{p(A,P,I)}{p(B,P,I)} = \frac{t_{ex}(B,P,I)}{t_{ex}(A,P,I)}
+</span></p>
+<section id="mean-values" class="level3">
+<h3 class="anchored" data-anchor-id="mean-values">Mean values</h3>
+<p><span class="math display">
+\overline{t_{ex}} := \frac{1}{n} \sum_{k=1}^n t_{ex}(M,P_k,I_k)
+</span></p>
+<p>The resulting mean performance</p>
+<p><span class="math display">
+\overline{p} = \frac{1}{\overline{t_{ex}}}
+</span></p>
+<p>Mean with user profile:</p>
+<p><span class="math display">
+\widetilde{t_{ex}} := \sum_{i=1}^n w_{k,i} \cdot t_{ex}(M,P_i,I_i)
+</span></p>
+</section>
+<section id="normalized-values" class="level3">
+<h3 class="anchored" data-anchor-id="normalized-values">Normalized values</h3>
+<p>Value relative to reference machine:</p>
+<p><span class="math display">
+\lVert t_{ex} (M,P,I) \rVert := \frac{t_{ex}(M,P,I)}{t_{ex}(M_{ref},P,I)}
+</span></p>
+<p>Use of geometric mean, because usually the reference machine lacks of some benchmark values</p>
+<p><span class="math display">
+\overline{t_{ex}}_{geom}(M) := \sqrt[{n}]{\prod _{k=1}^{n}t_{ex}(M, P_k, I_k)}
+</span></p>
+<p><span class="math display">
+\lVert \overline{t_{ex}}_{geom}(M) \rVert = \sqrt[{n}]{\prod_{k=1}^{n} \frac{t_{ex}(M, P_k, I_k)}{t_{ex}(M_{ref}, P_k, I_k)}}
+</span></p>
+</section>
+</section>
+<section id="sec-comsys-cheat-mips" class="level2">
+<h2 class="anchored" data-anchor-id="sec-comsys-cheat-mips">MIPS</h2>
+<p>Millions instruction per second</p>
+<p><span class="math display">
+MIPS(P) := \frac{IC(P) \cdot 10^{-6}}{t_{ex}(P)}
+</span></p>
+<section id="maximum-performance" class="level3">
+<h3 class="anchored" data-anchor-id="maximum-performance">Maximum performance</h3>
+<p><span class="math display">
+L_{max \varnothing}(M) = \frac{1}{CPI(M) \cdot T_{CLK}}
+</span></p>
+<p><span class="math display">
+IPC_{max}(M) = \frac{1}{CPI_{min}(M)}
+</span></p>
+<p><span class="math display">
+L_{max}(M) \leq \frac{IPC_{max}(M)}{T_{CLK}} \tag{1}
+</span></p>
+</section>
+</section>
+<section id="sec-comsys-cheat-prog-depending" class="level2">
+<h2 class="anchored" data-anchor-id="sec-comsys-cheat-prog-depending">Program-Depending Performance Model</h2>
+<p>Runtime calculation</p>
+<p><span class="math display">
+t_{ex} = IC \cdot CPI \cdot T_{CLK} = T_{CLK} \cdot \sum_i CPI_i \cdot IC_i
+</span></p>
+<p>Sum of instruction count <span class="math inline">IC</span> and cycle per instruction <span class="math inline">CPI</span></p>
+<p><span class="math display">
+\begin{array}{rcl}
+IC &amp; := &amp; \sum_i IC_i \\
+CPI &amp; : = &amp; \sum_i CPI_i \frac{IC_i}{IC}
+\end{array}
+</span></p>
+</section>
+<section id="sec-comsys-cheat-sorage-bandwidht" class="level2">
+<h2 class="anchored" data-anchor-id="sec-comsys-cheat-sorage-bandwidht">Storage Bandwidth</h2>
+<p>with:</p>
+<ul>
+<li><p><span class="math inline">L_{max \varnothing}(M)</span>: theoretical maximum performance</p></li>
+<li><p><span class="math inline">S_{req}(M)</span>: memory usage</p></li>
+</ul>
+<p><span class="math display">
+SB_{max \varnothing}(M) = L_{max \varnothing}(M) \cdot S_{req}(M) \text{  }[\text{Byte}/\text{s}]
+</span></p>
+</section>
+<section id="sec-comsys-cheat-parallel" class="level2">
+<h2 class="anchored" data-anchor-id="sec-comsys-cheat-parallel">Parallelization</h2>
+<section id="speedup" class="level3">
+<h3 class="anchored" data-anchor-id="speedup">Speedup</h3>
+<p><span class="math display">
+S_p(M_p, P_{\parallel}) = \frac{t_{ex}(M_1, P_s)}{t_{ex}(M_p, P_{\parallel})}
+</span></p>
+</section>
+<section id="efficiency" class="level3">
+<h3 class="anchored" data-anchor-id="efficiency">Efficiency</h3>
+<p><span class="math display">
+E_p(M_p, P_{\parallel}) := \frac{S_p(M_p, P_{\parallel})}{p} \le 1
+</span></p>
+</section>
+<section id="amdahls-law" class="level3">
+<h3 class="anchored" data-anchor-id="amdahls-law">Amdahl’s Law</h3>
+<p>with:</p>
+<ul>
+<li><p><span class="math inline">A_s</span>: serial ratio</p></li>
+<li><p><span class="math inline">A_{\parallel}</span>: parallel ratio</p></li>
+<li><p><span class="math inline">p</span>: processor count</p></li>
+<li><p><span class="math inline">o(p)</span>: overhead</p></li>
+</ul>
+<p><span class="math display">
+S = \frac{1}{A_s + \frac{A_{\parallel}}{p} + o(p)}
+</span></p>
 
-<section id="home" class="level1 unnumbered">
-<h1 class="unnumbered">Home</h1><p><img src="images/notebook-50percent.png" title="Computer Science Notebook" class="quarto-cover-image nolightbox img-fluid" alt="An inviting workspace featuring a laptop displaying code, a steaming ceramic mug, a physical notebook, and a small potted plant under soft, diffused light. "></p>
-<p>This is a Quarto notebook.</p>
-<p>To learn more about Quarto websites visit <a href="https://quarto.org/docs/websites" class="uri">https://quarto.org/docs/websites</a>.</p>
 
-
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -799,11 +960,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../qmd/linux-lpic-cheat-sheet.html" class="pagination-link" aria-label="Linux LPIC Cheat-Sheet">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Linux LPIC Cheat-Sheet</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./qmd/linux-lpic-cheat-sheet.html" class="pagination-link" aria-label="Linux LPIC Cheat-Sheet">
-        <span class="nav-page-text">Linux LPIC Cheat-Sheet</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -815,7 +976,7 @@ ul.task-list li input[type="checkbox"] {
     <div class="nav-footer-center">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="./LICENSE.html">
+    <a class="nav-link" href="../LICENSE.html">
 <p>Creative Commons Attribution-NonCommercial 4.0 International License</p>
 </a>
   </li>  

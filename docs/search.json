@@ -164,6 +164,72 @@
     ]
   },
   {
+    "objectID": "qmd/computer-systems-formulas.html",
+    "href": "qmd/computer-systems-formulas.html",
+    "title": "Computer Systems Formulas",
+    "section": "",
+    "text": "Runtime\nCycle time vs clock frequency\nT_{CLK} = \\frac{1}{f_{CLK}}\nThe runtime for machine A with the program P and input I\nt_{ex}(A,P,I)",
+    "crumbs": [
+      "Computer Systems",
+      "Computer Systems Formulas"
+    ]
+  },
+  {
+    "objectID": "qmd/computer-systems-formulas.html#sec-comsys-cheat-perform",
+    "href": "qmd/computer-systems-formulas.html#sec-comsys-cheat-perform",
+    "title": "Computer Systems Formulas",
+    "section": "Performance",
+    "text": "Performance\n\np(A,P,I) := \\frac{1}{t_{ex}(A,P,I)}\n\nThe relation between to performances:\n\nr(A,B) = \\frac{p(A,P,I)}{p(B,P,I)} = \\frac{t_{ex}(B,P,I)}{t_{ex}(A,P,I)}\n\n\nMean values\n\n\\overline{t_{ex}} := \\frac{1}{n} \\sum_{k=1}^n t_{ex}(M,P_k,I_k)\n\nThe resulting mean performance\n\n\\overline{p} = \\frac{1}{\\overline{t_{ex}}}\n\nMean with user profile:\n\n\\widetilde{t_{ex}} := \\sum_{i=1}^n w_{k,i} \\cdot t_{ex}(M,P_i,I_i)\n\n\n\nNormalized values\nValue relative to reference machine:\n\n\\lVert t_{ex} (M,P,I) \\rVert := \\frac{t_{ex}(M,P,I)}{t_{ex}(M_{ref},P,I)}\n\nUse of geometric mean, because usually the reference machine lacks of some benchmark values\n\n\\overline{t_{ex}}_{geom}(M) := \\sqrt[{n}]{\\prod _{k=1}^{n}t_{ex}(M, P_k, I_k)}\n\n\n\\lVert \\overline{t_{ex}}_{geom}(M) \\rVert = \\sqrt[{n}]{\\prod_{k=1}^{n} \\frac{t_{ex}(M, P_k, I_k)}{t_{ex}(M_{ref}, P_k, I_k)}}",
+    "crumbs": [
+      "Computer Systems",
+      "Computer Systems Formulas"
+    ]
+  },
+  {
+    "objectID": "qmd/computer-systems-formulas.html#sec-comsys-cheat-mips",
+    "href": "qmd/computer-systems-formulas.html#sec-comsys-cheat-mips",
+    "title": "Computer Systems Formulas",
+    "section": "MIPS",
+    "text": "MIPS\nMillions instruction per second\n\nMIPS(P) := \\frac{IC(P) \\cdot 10^{-6}}{t_{ex}(P)}\n\n\nMaximum performance\n\nL_{max \\varnothing}(M) = \\frac{1}{CPI(M) \\cdot T_{CLK}}\n\n\nIPC_{max}(M) = \\frac{1}{CPI_{min}(M)}\n\n\nL_{max}(M) \\leq \\frac{IPC_{max}(M)}{T_{CLK}} \\tag{1}",
+    "crumbs": [
+      "Computer Systems",
+      "Computer Systems Formulas"
+    ]
+  },
+  {
+    "objectID": "qmd/computer-systems-formulas.html#sec-comsys-cheat-prog-depending",
+    "href": "qmd/computer-systems-formulas.html#sec-comsys-cheat-prog-depending",
+    "title": "Computer Systems Formulas",
+    "section": "Program-Depending Performance Model",
+    "text": "Program-Depending Performance Model\nRuntime calculation\n\nt_{ex} = IC \\cdot CPI \\cdot T_{CLK} = T_{CLK} \\cdot \\sum_i CPI_i \\cdot IC_i\n\nSum of instruction count IC and cycle per instruction CPI\n\n\\begin{array}{rcl}\nIC & := & \\sum_i IC_i \\\\\nCPI & : = & \\sum_i CPI_i \\frac{IC_i}{IC}\n\\end{array}",
+    "crumbs": [
+      "Computer Systems",
+      "Computer Systems Formulas"
+    ]
+  },
+  {
+    "objectID": "qmd/computer-systems-formulas.html#sec-comsys-cheat-sorage-bandwidht",
+    "href": "qmd/computer-systems-formulas.html#sec-comsys-cheat-sorage-bandwidht",
+    "title": "Computer Systems Formulas",
+    "section": "Storage Bandwidth",
+    "text": "Storage Bandwidth\nwith:\n\nL_{max \\varnothing}(M): theoretical maximum performance\nS_{req}(M): memory usage\n\n\nSB_{max \\varnothing}(M) = L_{max \\varnothing}(M) \\cdot S_{req}(M) \\text{  }[\\text{Byte}/\\text{s}]",
+    "crumbs": [
+      "Computer Systems",
+      "Computer Systems Formulas"
+    ]
+  },
+  {
+    "objectID": "qmd/computer-systems-formulas.html#sec-comsys-cheat-parallel",
+    "href": "qmd/computer-systems-formulas.html#sec-comsys-cheat-parallel",
+    "title": "Computer Systems Formulas",
+    "section": "Parallelization",
+    "text": "Parallelization\n\nSpeedup\n\nS_p(M_p, P_{\\parallel}) = \\frac{t_{ex}(M_1, P_s)}{t_{ex}(M_p, P_{\\parallel})}\n\n\n\nEfficiency\n\nE_p(M_p, P_{\\parallel}) := \\frac{S_p(M_p, P_{\\parallel})}{p} \\le 1\n\n\n\nAmdahl’s Law\nwith:\n\nA_s: serial ratio\nA_{\\parallel}: parallel ratio\np: processor count\no(p): overhead\n\n\nS = \\frac{1}{A_s + \\frac{A_{\\parallel}}{p} + o(p)}",
+    "crumbs": [
+      "Computer Systems",
+      "Computer Systems Formulas"
+    ]
+  },
+  {
     "objectID": "LICENSE.html",
     "href": "LICENSE.html",
     "title": "Creative Commons Attribution-NonCommercial 4.0 International License",
