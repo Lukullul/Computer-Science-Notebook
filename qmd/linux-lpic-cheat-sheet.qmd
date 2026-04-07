@@ -1,0 +1,771 @@
+# Linux LPIC Cheat-Sheet {#sec-lpic .unnumbered}
+
+## tl;dr {#sec-lpic-tldr}
+
+### Add User {#sec-lpic-tldr-useradd}
+
+```bash
+# Create a new user with a home directory and set the default shell to bash
+sudo useradd -m [-G audio,video] -s /bin/bash newuser
+
+# Set or update the password for the newly created user
+sudo passwd newuser
+# or expire current password to let user set their own
+sudo passwd -e newuser
+
+# Optional: Add the user to the sudo group for administrative privileges
+sudo usermod -aG sudo newuser
+```
+
+### Partition and Mount File {#sec-lpic-tldr-part}
+
+```bash
+# Open the disk utility to partition a drive (e.g., the second disk /dev/sdb)
+sudo fdisk /dev/sdb
+# Open a help [m]enu:
+<m>
+# Print the [p]artition table:
+<p>
+# Add a [n]ew partition:
+<n>
+# Select a partition to [d]elete:
+<d>
+# [w]rite table to disk and exit:
+<w>
+# [q]uit without saving changes:
+<q>
+
+# Format the new partition (e.g., /dev/sdb1) with the ext4 file system
+sudo mkfs.ext4 /dev/sdb3
+
+# Create a directory that will serve as the mount point
+sudo mkdir -p /mnt/data_drive
+
+# Mount the formatted partition to the newly created directory
+sudo mount /dev/sdb3 /mnt/data_drive
+```
+
+#### working with fdisk {#sec-lpic-tldr-part-fdisk}
+
+```bash
+$ sudo fdisk /dev/sdb
+
+Welcome to fdisk (util-linux 2.41).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+Command (m for help): p
+# [...]
+Device       Start     End Sectors  Size Type
+/dev/sdb1     2048 1050623 1048576  512M Linux filesystem
+/dev/sdb2  1050624 2484223 1433600  700M Linux filesystem
+
+Command (m for help): n
+Partition number (3-128, default 3):
+First sector (2484224-41943006, default 2484224):
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (2484224-41943006, default 41940991): +100M
+
+Created a new partition 3 of type 'Linux filesystem' and of size 100 MiB.
+
+Command (m for help): p
+# [...]
+Device       Start     End Sectors  Size Type
+/dev/sdb1     2048 1050623 1048576  512M Linux filesystem
+/dev/sdb2  1050624 2484223 1433600  700M Linux filesystem
+/dev/sdb3  2484224 2689023  204800  100M Linux filesystem
+
+Command (m for help): w
+The partition table has been altered.
+Syncing disks.
+
+$ lsblk
+NAME                  MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+# [...]
+sdb                     8:16   0   20G  0 disk
+├─sdb1                  8:17   0  512M  0 part /mnt/data1
+├─sdb2                  8:18   0  700M  0 part /mnt/data2
+└─sdb3                  8:19   0  100M  0 part
+ 
+```
+
+
+### Search files {#sec-lpic-tldr-part-search}
+
+```bash
+# Search for a file by its exact name starting from the root directory
+find / -name "syslog"
+
+# Find all files (type f) in the home directory that are larger than 100 Megabytes
+find /home -type f -size +100M
+
+# Search for a specific text string inside all files within a directory (recursive, show line number, ignore-case)
+grep -rni "error" /var/log/ 2> /dev/null
+```
+
+### Zip, Unzip {#sec-lpic-tldr-part-zip}
+
+```bash
+# Compress Decompress
+gzip file.txt # replace file.txt with file.txt.gz use -k to keep the original
+gzip -d file.txt.gz # decompress
+
+# create tarball
+tar cvf files.tar files/* another_file.txt...
+
+# Create a standard Linux tarball (.tar.gz) for better compression
+tar -czvf backup_archive.tar.gz /path/to/folder
+# Extract a tarball (.tar.gz) into a specific destination directory
+tar -xzvf backup_archive.tar.gz -C /path/to/destination
+```
+
+### Setup automount in `/etc/fstab` {#sec-lpic-tldr-part-automnt}
+
+```bash
+# Retrieve the unique UUID of the partition (crucial for stable mounting)
+sudo blkid /dev/sdb1
+
+# Open the fstab configuration file in a text editor
+sudo vim /etc/fstab
+
+# Append this line to the end of the file (replace with your actual UUID):
+# UUID=1234abcd-12ab-34cd-56ef-1234567890ab /mnt/data_drive ext4 defaults 0 2
+
+# Test the fstab file to ensure there are no syntax errors before rebooting
+sudo mount -a
+```
+
+
+### generate ssh key and upload {#sec-lpic-tldr-setlocal}
+
+```bash
+# generate ssh key
+ssh-keygen -t ed25519 -a 32 -f ~/.ssh/filename
+# copy to remote
+ssh-copy-id -i ~/.ssh/filename username@remote_host
+```
+
+### Set location {#sec-lpic-tldr-setlocal}
+
+```bash
+# in debian
+sudo dpkg-reconfigure locales
+# else
+localectl set-locale LANG=your_locale.UTF-8
+# or
+sudo /etc/locale.conf
+
+# status
+localectl status
+```
+
+
+
+## STDIN, STDOUT, STDERR {#sec-lpic-sdin_out}
+
+```bash
+COMMAND > FILE  # Makes a new or overwrites stdout to a file
+COMMAND >> FILE # Makes a new or appends stdout to a file
+# Same for STDERR
+COMMAND 2> FILE
+COMMAND 2>> FILE
+
+# write STDOUT & STDERR in same file
+COMMAND > FILE 2>&1
+COMMAND >> FILE 2>&1 # STDERR behaves the same
+
+# File as STDIN
+COMMAND < FILE
+COMMAND <<EOF
+some text with multible
+lines that don\'t have
+to be from a file
+EOF
+```
+
+### Examples {#sec-lpic-sdin_out-example}
+
+```bash
+# uncompress img file and write to drive sdc
+gunzip < disk.img.gz > /dev/sdc
+
+# instead of
+cat report.txt | mail -s 'Report' root
+# With file-STDIN
+mail -s 'Report' root < report.txt # or
+mail -s 'Report' root <<EOF
+Dear root,
+what yesterday happended...
+...but don\'t worry
+EOF
+```
+
+## Grundlegende Befehle {#sec-lpic-basiccmd}
+
+```bash
+# sort - sort lines of text files
+sort [OPTION]... [FILE]...
+
+# uniq - report or omit repeated lines
+uniq [OPTION]... [INPUT [OUTPUT]]
+
+# pwd - print name of current/working directory
+pwd [OPTION]...
+
+# wc - print newline, word, and byte counts for each file
+wc [OPTION]... [FILE]...
+
+# Unset values and attributes of shell variables and functions.
+unset [-f] [-v] [-n] [VARIABLE ...]
+
+# date - print or set the system date and time
+date [OPTION]... MMDDhhmm[[CC]YY][.ss]
+
+# Indicate how each name would be interpreted if used as a command name.
+type [-aftpP] name [name ...]
+
+# reads and execute commands from filename in the current shell environment
+source
+.
+
+# grep - print lines that match patterns
+grep [OPTION]... PATTERNS [FILE]...
+
+# find - search for files in a directory hierarchy
+# If no starting-point is specified, `.'  is assumed.
+find [option] [starting-point...] [expression]
+```
+
+### One liner {#sec-lpic-basiccmd-oneliner}
+
+```bash
+# make parent directories as needed
+mkdir -p a/couple/of/dirs
+
+# jump back to last directory
+cd -
+
+# remove directories and their contents recursively
+rm -r a/couple/of/dirs
+
+# Count files recursive
+find . -type f | wc -l
+
+# Switch to root without changing startuser environment
+su root
+sudo bash
+
+# Switch to root with changing startuser environment
+su -      # With root password
+sudo -i   # With user password
+
+# list all dirs that mach the pattern "foo" from `.`
+find -type d -name '*foo*'
+# Add suffix `.txt` to every file in dir recursive
+find . -type f -exec mv {} {}.txt \;
+
+# case instentive
+[...] | grep -i PATTERN
+# list all files in `/etc` that contains the pattern username
+grep username /etc/* 2> /dev/null
+
+# create multiple files at once (file1a, file1b, file2a,...) 
+touch file{1,2,3,4}{a,b}
+touch file-{a..z}
+
+ls file?a # any char between e and a
+ls file?[a,b] # any char between e and (a or b)
+ls file[^1-3]a # all file that don't have the number 1-3 
+ls file[[:digit:]][[:alpha:]]
+
+# execute second command if true
+test -e states.txt && echo "File exists"
+
+# grep only uncommend setting (no leading # or blank lines)
+grep -v '^#' /etc/default/keyboard | grep -v '^$'
+egrep -v ^'(#|$)' /etc/default/keyboard # with regex
+
+# display resulting command expression
+echo COMMAND
+echo rm file{1..4} # -> rm file1 file2 file3 file4
+
+# Show diff between two commands side-by-side with colors
+diff --side-by-side --color=always <(ls -1 /proc/ -I "[[:digit:]]*" | sort) <(ls -1 /proc/1 | sort)
+```
+
+
+## Help {#sec-lpic-help}
+
+```bash
+# Display helpful information about builtin commands.
+help [OPTION] [command]
+
+# search the manual page names and descriptions
+apropos [options] keyword ...
+man -k keyword ...
+
+# display one-line manual page descriptions
+whatis [options] name...
+
+# locate the binary, source, and manual page files for a command
+whereis [options] name...
+```
+
+## Package Manager {#sec-lpic-packagemngr}
+
+```bash
+# List all available packages
+dnf list
+apt list
+
+# Show detailed information
+dnf info PACKAGE
+apt show PACKAGE
+
+# Search by name or description
+dnf search
+apt search
+
+# Query all installed packages.
+rmp -qa
+dpkg --get-selection
+
+# Install a downloaded package
+sudo rpm --install path/to/package.rpm
+sudo dpkg --install path/to/file.deb
+```
+
+## Filemanagement {#sec-lpic-filemngr}
+
+```bash
+# Make directory with needed parrentdir
+mkdir -p a/bunch/of/dirs
+
+# dd - convert and copy a file
+# input file `/dev/zero`, output file `zero.txt`
+# read  and  write  up to 1Mb at a time
+# copy only 100 input blocks
+dd if=/dev/zero of=zero.txt bs=1M count=100 # result a 100Mb large file with zeros
+# Backup entire disk to disk
+sudo dd if=/dev/sda of=/dev/sdb bs=4096 conv=noerror,sync status=progress
+# Creating a compressed disk image
+sudo dd if=/dev/vda status=progress | gzip -c > /tmp/vdadisk.img.gz
+# restore
+sudo gzip -dc /tmp/vdadisk.img.gz | dd of=/dev/vda # gunzip would work the same
+
+# tar - an archiving utility
+tar {c|d|r|t|u|x}[vf] [ARG...]
+# archive
+tar cvf files.tar files/* another_file.txt...
+# archive and auto compress (depending on file ending)
+tar cavf files.tar.gz files/* another_file.txt...
+# list content
+tar tvf files.tar
+# extract
+tar xvf files.tar
+
+# gzip
+gzip [ options ] [ name ...  ]
+# Compress Decompress
+gzip file.txt # replace file.txt with file.txt.gz use -k to keep the original
+gzip -d file.txt.gz # decompress
+
+# stat - display file or file system status
+stat [OPTION]... FILE...
+
+# Create hardlink (file with same inode)
+ln ./file hardlinkname
+ln ./dir/ hardlinkname
+# Create softlink
+ln -s ./file softlinkname
+ln -s ./dir/ softlinkname
+
+# Working with named pipe
+mkfifo fifo_file
+echo "SOME DATA" > fifo_file
+cat fifo_file
+
+# List filesize human readable
+du -h file.txt
+# Summarazied for current working directory
+du -sh .
+
+# df - report file system space usage
+df -h
+
+# List partitions:
+sudo gdisk --list
+
+# Start the interactive partition manipulator:
+sudo gdisk /dev/sdX
+
+
+# Create filesystem
+mkfs.ext4 /dev/sda
+
+# stat - display file or file system status
+stat [OPTION]... FILE...
+
+# List block devices
+lsblk
+fdisk -l
+
+blkid /dev/sda
+```
+
+## Device Management {#sec-lpic-devicemngr}
+
+```bash
+# list devices
+lspci
+lshw [-short] [-class network,disk,cpu,...]
+lsblk
+lsusb
+```
+
+
+
+## Editor {#sec-lpic-tldr-editor}
+
+### Less {#sec-lpic-editor-less}
+
+```bash
+# Open content in default text editor
+v
+
+# Save input to a file.
+s file
+
+# Forward forever
+F
+
+# Show statistics
+=
+
+# set mark `a` (`a` could be any key)
+ma
+# goto mark `a`
+'a
+
+# Show numbers
+less -N [FILE]
+```
+
+### Vim {#sec-lpic-editor-vim}
+
+#### Keybinds {#sec-lpic-editor-vim-keybinds}
+
+```bash
+
+
+## Editing
+# Shift left right (N stands for how many lines)
+>N
+<N
+
+# give spelling suggestions
+z=
+
+## Register and Clipboard
+# Make selected word to uppercase/lowercase
+veU
+veu
+# Swap case for selected word
+ve~
+
+# paste current system's clipboard via register
+"+p
+# select word and yank in system's clipboard
+ve"+y
+
+# To line [count] from top (Home) of window
+H
+# To Middle line of window
+M
+# To line [count] from bottom of window
+L
+
+## Searching
+# Search word at curser position
+*
+# Case insensitive search
+/PATTERN\c
+
+## Movement
+# Scroll up
+CTRL-Y
+# Scroll down
+CTRL-E
+# Scroll to move the current line at ceter
+zz
+# Scroll to move the current line at top
+zt
+# Scroll to move the current line at botton
+zb
+
+# Jump beween brackets `(), [], {}`
+%
+
+# Move to next sentence
+)
+# Move to next paragraph
+}
+# Move to next section
+]]
+
+# Page up
+CRTL-u  or  CTRL-b
+# Page down
+CTRL-d  or  CTRL-f
+
+# Go to [count] Older cursor position in `:jumps`
+CTRL-O
+# Go to [count] newer cursor position in `:jumps`
+CTRL-I
+
+# Looks up the word at curser position in the manpages
+K
+
+# fold code
+zf # after selection
+zf{motion}
+# unfold code
+zo
+```
+
+
+#### Commands {#sec-lpic-editor-vim-commands}
+
+
+```bash
+# Search Replace `help :substitute`
+:[range]s[ubstitute]/{pattern}/{string}/[flags] [count] 
+# Examples
+# Confirm each from enteir file
+:s/old/new/gc
+# Line range from 3 to 6
+:3,6s/old/new/g
+# from current line to end of file
+:.,$s/old/new/g
+# Relative lines
+:+2,-2/old/new/g
+# Enteir file
+:%s/old/new/g
+# First in current line
+:s/old/new/
+# Ignor case
+:s/old/new/gi
+
+# Comment and uncomment from 5 to 20
+:5,20s/^/#/
+:5,20s/^#//
+# Replace Multiple words
+:%s/apple\|orange\|mango/fruit/g
+
+# Insert the file below the cursor
+:read log.txt
+# Insert the stdout from the given command
+:read! echo $USER
+
+# copy last register into system clipboard
+:let @+=@"
+
+# Switch to Hexeditor
+:%!xxd
+# Go back/Apply changes from the hex part
+:%!xxd -r
+# Set filtetype (syntax hilighting) to xxd
+:set filetype=xxd
+
+# Set foldmethod
+:set foldmethod=[manual|indent|syntax|diff|...]
+```
+
+## Network {#sec-lpic-network}
+
+```bash
+# host - DNS lookup utility
+host [options] {name} [server]
+# dig - DNS lookup utility
+dig [@server] {name} [type]
+```
+
+## Scripting {#sec-lpic-sripting}
+
+```bash
+# Read  one  line from the standard input
+read VARIABLE
+
+# test - check file types and compare values
+test EXPRESSION
+[ EXPRESSION ]
+# get result
+echo $? # 0 -> true; 1 -> false; else -> errcode also false
+
+# execute if true
+test -f ./file.txt && echo "file exist"
+# execute if false
+test -f ./file.txt || echo "file doesn't exist"
+```
+
+## Usermanagement {#sec-lpic-usermngr}
+
+```bash
+# id - print real and effective user and group IDs
+id [OPTION]... [USER]...
+
+# add user foobaa with home-dir (m) and Group (G) audio,video and shell (s) `/bin/bash`
+useradd -mG audio,video -s /bin/bash foobaa
+# get passwd entry from foobaa
+getent passwd foobaa
+# set password for foobaa
+passwd foobaa
+# expire current password for foobaa
+passwd -e foobaa
+
+# Print info about user account
+passwd -S foobaa
+cage -l foobaa
+
+# block an account
+passwd -l foobaa
+# unblock an account
+passwd -u foobaa
+
+# Create Group foogroup with gid 10000
+groupadd -g 10000 foogroup
+# Add foobaa to group foogroup
+usermod -aG foogroup foobaa
+
+# permissions (1=x, 2=w, 4=r)
+# add execute permission to group and user
+chmod u+x,g+x file.sh
+chmod +110 file.sh
+# all permission user no write to else
+chmod u=xwr,go=xr file.sh
+chmod 755 file.sh
+
+# Remove a user
+userdel username
+
+# Remove a user along with the home directory and mail spool
+sudo userdel --remove username
+
+# Prints the current umask
+umask [-S]
+# Add read right to all in umask
+umask a+r
+umask 
+```
+
+## Prozesse, Sockets & System Demonds {#sec-lpic-processes}
+
+```bash
+# run command as job
+COMMAND &
+# list all jobs
+jobs
+# kill job (see `man signal`)
+kill [-SIG_NUM] %JOB_ID
+
+# list all pid with given name
+pidof bash
+pgrep bash
+# kill process
+kill [-SIG_NUM] PROZESS_ID
+
+# process snapshot
+# current terminal processes
+ps
+# list with "nice" value
+ps -o pid,ni,cmd
+# user processes
+ps x
+# all proxesses
+ps aux
+# as a hierarchy
+ps fax
+
+# Creating a Unix Socket
+# SOCK_STREAM
+nc --unixsock /tmp/demo-tcp.sock --listen
+# SOCK_DGRAM
+nc --unixsock /tmp/demo-udp.sock --udp --listen
+
+# connect to to listen socken
+# written text will be sendet bidirectional
+nc --unixsock /tmp/demo-tcp.sock
+nc --unixsock /tmp/demo-udp.sock -u
+
+# Sending message to journalctl
+logger "msg"
+nc -U /run/sytemd/journal/dev-log -u
+
+# See journalctl
+journalctl -f
+
+# start process with certain nice value
+# -20 (most favorable to the process (only with root privilages)) to 19 (least favorable to the process)
+# default 10
+nice -NICE_VALUE COMAND
+
+# systemctl - Control the systemd system and service manager
+# show all running services
+systemctl status
+# Start/Stop/Restart/Reload/Show the status of a service:
+systemctl start|stop|restart|reload|status UNIT
+# Show the contents & absolute path of a unit file or edit it:
+systemctl cat|edit UNIT
+# Enable/Disable a unit to be started on bootup:
+systemctl enable|disable UNIT
+# Reload systemd, scan for new or changed units:
+systemctl daemon-reload
+# Check if a unit is active/enabled/failed:
+systemctl is-active|is-enabled|is-failed UNIT
+# List all service/socket/automount units filtering by running/failed state:
+systemctl list-units --type service|socket|automount --state failed|running
+
+# set default target to boot into
+systemctl set-default TARGET # e.g. graphical.target, multi-user.target, rescue.target,...
+# switch to a target
+systemctl isolate TARGET
+# switch to default target
+systemctl default
+
+# Display the dependency tree for a specific target
+systemctl list-dependencies graphical.target
+```
+
+
+
+## Common Variables {#sec-lpic-common_vars}
+
+```bash
+# Lookup
+# printenv - print all or part of environment
+printenv [OPTION] [VARIABLE]...
+
+# print all variables
+set # or
+declare
+
+# User
+PWD=/home/lumen
+LOGNAME=lumen
+UID=1000
+HOME=/home/lumen
+USERNAME=some_user
+USER=some_user
+
+# Environment
+SHELL=/bin/bash
+DESKTOP_SESSION=gnome
+EDITOR=/usr/bin/nvim
+XDG_SESSION_DESKTOP=gnome
+XDG_SESSION_TYPE=wayland
+LANG=en_US.UTF-8
+TERM=tmux-256color
+MANPAGER=nvim +Man!
+DISPLAY=:0
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/var/lib/snapd/snap/bin
+
+```

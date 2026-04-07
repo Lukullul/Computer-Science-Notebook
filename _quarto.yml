@@ -25,6 +25,9 @@ book:
         href: https://lukullul.github.io
   chapters:
     - index.qmd
+    - part: Linux
+      chapters: 
+      - qmd/linux-lpic-cheat-sheet.qmd
 
 # pdf:
 #   papersize: a4

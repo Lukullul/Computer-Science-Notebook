@@ -10,6 +10,160 @@
     ]
   },
   {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html",
+    "href": "qmd/linux-lpic-cheat-sheet.html",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "",
+    "text": "tl;dr",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-tldr",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-tldr",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "",
+    "text": "Add User\n# Create a new user with a home directory and set the default shell to bash\nsudo useradd -m [-G audio,video] -s /bin/bash newuser\n\n# Set or update the password for the newly created user\nsudo passwd newuser\n# or expire current password to let user set their own\nsudo passwd -e newuser\n\n# Optional: Add the user to the sudo group for administrative privileges\nsudo usermod -aG sudo newuser\n\n\nPartition and Mount File\n# Open the disk utility to partition a drive (e.g., the second disk /dev/sdb)\nsudo fdisk /dev/sdb\n# Open a help [m]enu:\n&lt;m&gt;\n# Print the [p]artition table:\n&lt;p&gt;\n# Add a [n]ew partition:\n&lt;n&gt;\n# Select a partition to [d]elete:\n&lt;d&gt;\n# [w]rite table to disk and exit:\n&lt;w&gt;\n# [q]uit without saving changes:\n&lt;q&gt;\n\n# Format the new partition (e.g., /dev/sdb1) with the ext4 file system\nsudo mkfs.ext4 /dev/sdb3\n\n# Create a directory that will serve as the mount point\nsudo mkdir -p /mnt/data_drive\n\n# Mount the formatted partition to the newly created directory\nsudo mount /dev/sdb3 /mnt/data_drive\n\nworking with fdisk\n$ sudo fdisk /dev/sdb\n\nWelcome to fdisk (util-linux 2.41).\nChanges will remain in memory only, until you decide to write them.\nBe careful before using the write command.\n\nCommand (m for help): p\n# [...]\nDevice       Start     End Sectors  Size Type\n/dev/sdb1     2048 1050623 1048576  512M Linux filesystem\n/dev/sdb2  1050624 2484223 1433600  700M Linux filesystem\n\nCommand (m for help): n\nPartition number (3-128, default 3):\nFirst sector (2484224-41943006, default 2484224):\nLast sector, +/-sectors or +/-size{K,M,G,T,P} (2484224-41943006, default 41940991): +100M\n\nCreated a new partition 3 of type 'Linux filesystem' and of size 100 MiB.\n\nCommand (m for help): p\n# [...]\nDevice       Start     End Sectors  Size Type\n/dev/sdb1     2048 1050623 1048576  512M Linux filesystem\n/dev/sdb2  1050624 2484223 1433600  700M Linux filesystem\n/dev/sdb3  2484224 2689023  204800  100M Linux filesystem\n\nCommand (m for help): w\nThe partition table has been altered.\nSyncing disks.\n\n$ lsblk\nNAME                  MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS\n# [...]\nsdb                     8:16   0   20G  0 disk\n├─sdb1                  8:17   0  512M  0 part /mnt/data1\n├─sdb2                  8:18   0  700M  0 part /mnt/data2\n└─sdb3                  8:19   0  100M  0 part\n \n\n\n\nSearch files\n# Search for a file by its exact name starting from the root directory\nfind / -name \"syslog\"\n\n# Find all files (type f) in the home directory that are larger than 100 Megabytes\nfind /home -type f -size +100M\n\n# Search for a specific text string inside all files within a directory (recursive, show line number, ignore-case)\ngrep -rni \"error\" /var/log/ 2&gt; /dev/null\n\n\nZip, Unzip\n# Compress Decompress\ngzip file.txt # replace file.txt with file.txt.gz use -k to keep the original\ngzip -d file.txt.gz # decompress\n\n# create tarball\ntar cvf files.tar files/* another_file.txt...\n\n# Create a standard Linux tarball (.tar.gz) for better compression\ntar -czvf backup_archive.tar.gz /path/to/folder\n# Extract a tarball (.tar.gz) into a specific destination directory\ntar -xzvf backup_archive.tar.gz -C /path/to/destination\n\n\nSetup automount in /etc/fstab\n# Retrieve the unique UUID of the partition (crucial for stable mounting)\nsudo blkid /dev/sdb1\n\n# Open the fstab configuration file in a text editor\nsudo vim /etc/fstab\n\n# Append this line to the end of the file (replace with your actual UUID):\n# UUID=1234abcd-12ab-34cd-56ef-1234567890ab /mnt/data_drive ext4 defaults 0 2\n\n# Test the fstab file to ensure there are no syntax errors before rebooting\nsudo mount -a\n\n\ngenerate ssh key and upload\n# generate ssh key\nssh-keygen -t ed25519 -a 32 -f ~/.ssh/filename\n# copy to remote\nssh-copy-id -i ~/.ssh/filename username@remote_host\n\n\nSet location\n# in debian\nsudo dpkg-reconfigure locales\n# else\nlocalectl set-locale LANG=your_locale.UTF-8\n# or\nsudo /etc/locale.conf\n\n# status\nlocalectl status",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-sdin_out",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-sdin_out",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "STDIN, STDOUT, STDERR",
+    "text": "STDIN, STDOUT, STDERR\nCOMMAND &gt; FILE  # Makes a new or overwrites stdout to a file\nCOMMAND &gt;&gt; FILE # Makes a new or appends stdout to a file\n# Same for STDERR\nCOMMAND 2&gt; FILE\nCOMMAND 2&gt;&gt; FILE\n\n# write STDOUT & STDERR in same file\nCOMMAND &gt; FILE 2&gt;&1\nCOMMAND &gt;&gt; FILE 2&gt;&1 # STDERR behaves the same\n\n# File as STDIN\nCOMMAND &lt; FILE\nCOMMAND &lt;&lt;EOF\nsome text with multible\nlines that don\\'t have\nto be from a file\nEOF\n\nExamples\n# uncompress img file and write to drive sdc\ngunzip &lt; disk.img.gz &gt; /dev/sdc\n\n# instead of\ncat report.txt | mail -s 'Report' root\n# With file-STDIN\nmail -s 'Report' root &lt; report.txt # or\nmail -s 'Report' root &lt;&lt;EOF\nDear root,\nwhat yesterday happended...\n...but don\\'t worry\nEOF",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-basiccmd",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-basiccmd",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "Grundlegende Befehle",
+    "text": "Grundlegende Befehle\n# sort - sort lines of text files\nsort [OPTION]... [FILE]...\n\n# uniq - report or omit repeated lines\nuniq [OPTION]... [INPUT [OUTPUT]]\n\n# pwd - print name of current/working directory\npwd [OPTION]...\n\n# wc - print newline, word, and byte counts for each file\nwc [OPTION]... [FILE]...\n\n# Unset values and attributes of shell variables and functions.\nunset [-f] [-v] [-n] [VARIABLE ...]\n\n# date - print or set the system date and time\ndate [OPTION]... MMDDhhmm[[CC]YY][.ss]\n\n# Indicate how each name would be interpreted if used as a command name.\ntype [-aftpP] name [name ...]\n\n# reads and execute commands from filename in the current shell environment\nsource\n.\n\n# grep - print lines that match patterns\ngrep [OPTION]... PATTERNS [FILE]...\n\n# find - search for files in a directory hierarchy\n# If no starting-point is specified, `.'  is assumed.\nfind [option] [starting-point...] [expression]\n\nOne liner\n# make parent directories as needed\nmkdir -p a/couple/of/dirs\n\n# jump back to last directory\ncd -\n\n# remove directories and their contents recursively\nrm -r a/couple/of/dirs\n\n# Count files recursive\nfind . -type f | wc -l\n\n# Switch to root without changing startuser environment\nsu root\nsudo bash\n\n# Switch to root with changing startuser environment\nsu -      # With root password\nsudo -i   # With user password\n\n# list all dirs that mach the pattern \"foo\" from `.`\nfind -type d -name '*foo*'\n# Add suffix `.txt` to every file in dir recursive\nfind . -type f -exec mv {} {}.txt \\;\n\n# case instentive\n[...] | grep -i PATTERN\n# list all files in `/etc` that contains the pattern username\ngrep username /etc/* 2&gt; /dev/null\n\n# create multiple files at once (file1a, file1b, file2a,...) \ntouch file{1,2,3,4}{a,b}\ntouch file-{a..z}\n\nls file?a # any char between e and a\nls file?[a,b] # any char between e and (a or b)\nls file[^1-3]a # all file that don't have the number 1-3 \nls file[[:digit:]][[:alpha:]]\n\n# execute second command if true\ntest -e states.txt && echo \"File exists\"\n\n# grep only uncommend setting (no leading # or blank lines)\ngrep -v '^#' /etc/default/keyboard | grep -v '^$'\negrep -v ^'(#|$)' /etc/default/keyboard # with regex\n\n# display resulting command expression\necho COMMAND\necho rm file{1..4} # -&gt; rm file1 file2 file3 file4\n\n# Show diff between two commands side-by-side with colors\ndiff --side-by-side --color=always &lt;(ls -1 /proc/ -I \"[[:digit:]]*\" | sort) &lt;(ls -1 /proc/1 | sort)",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-help",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-help",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "Help",
+    "text": "Help\n# Display helpful information about builtin commands.\nhelp [OPTION] [command]\n\n# search the manual page names and descriptions\napropos [options] keyword ...\nman -k keyword ...\n\n# display one-line manual page descriptions\nwhatis [options] name...\n\n# locate the binary, source, and manual page files for a command\nwhereis [options] name...",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-packagemngr",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-packagemngr",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "Package Manager",
+    "text": "Package Manager\n# List all available packages\ndnf list\napt list\n\n# Show detailed information\ndnf info PACKAGE\napt show PACKAGE\n\n# Search by name or description\ndnf search\napt search\n\n# Query all installed packages.\nrmp -qa\ndpkg --get-selection\n\n# Install a downloaded package\nsudo rpm --install path/to/package.rpm\nsudo dpkg --install path/to/file.deb",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-filemngr",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-filemngr",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "Filemanagement",
+    "text": "Filemanagement\n# Make directory with needed parrentdir\nmkdir -p a/bunch/of/dirs\n\n# dd - convert and copy a file\n# input file `/dev/zero`, output file `zero.txt`\n# read  and  write  up to 1Mb at a time\n# copy only 100 input blocks\ndd if=/dev/zero of=zero.txt bs=1M count=100 # result a 100Mb large file with zeros\n# Backup entire disk to disk\nsudo dd if=/dev/sda of=/dev/sdb bs=4096 conv=noerror,sync status=progress\n# Creating a compressed disk image\nsudo dd if=/dev/vda status=progress | gzip -c &gt; /tmp/vdadisk.img.gz\n# restore\nsudo gzip -dc /tmp/vdadisk.img.gz | dd of=/dev/vda # gunzip would work the same\n\n# tar - an archiving utility\ntar {c|d|r|t|u|x}[vf] [ARG...]\n# archive\ntar cvf files.tar files/* another_file.txt...\n# archive and auto compress (depending on file ending)\ntar cavf files.tar.gz files/* another_file.txt...\n# list content\ntar tvf files.tar\n# extract\ntar xvf files.tar\n\n# gzip\ngzip [ options ] [ name ...  ]\n# Compress Decompress\ngzip file.txt # replace file.txt with file.txt.gz use -k to keep the original\ngzip -d file.txt.gz # decompress\n\n# stat - display file or file system status\nstat [OPTION]... FILE...\n\n# Create hardlink (file with same inode)\nln ./file hardlinkname\nln ./dir/ hardlinkname\n# Create softlink\nln -s ./file softlinkname\nln -s ./dir/ softlinkname\n\n# Working with named pipe\nmkfifo fifo_file\necho \"SOME DATA\" &gt; fifo_file\ncat fifo_file\n\n# List filesize human readable\ndu -h file.txt\n# Summarazied for current working directory\ndu -sh .\n\n# df - report file system space usage\ndf -h\n\n# List partitions:\nsudo gdisk --list\n\n# Start the interactive partition manipulator:\nsudo gdisk /dev/sdX\n\n\n# Create filesystem\nmkfs.ext4 /dev/sda\n\n# stat - display file or file system status\nstat [OPTION]... FILE...\n\n# List block devices\nlsblk\nfdisk -l\n\nblkid /dev/sda",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-devicemngr",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-devicemngr",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "Device Management",
+    "text": "Device Management\n# list devices\nlspci\nlshw [-short] [-class network,disk,cpu,...]\nlsblk\nlsusb",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-tldr-editor",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-tldr-editor",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "Editor",
+    "text": "Editor\n\nLess\n# Open content in default text editor\nv\n\n# Save input to a file.\ns file\n\n# Forward forever\nF\n\n# Show statistics\n=\n\n# set mark `a` (`a` could be any key)\nma\n# goto mark `a`\n'a\n\n# Show numbers\nless -N [FILE]\n\n\nVim\n\nKeybinds\n\n\n## Editing\n# Shift left right (N stands for how many lines)\n&gt;N\n&lt;N\n\n# give spelling suggestions\nz=\n\n## Register and Clipboard\n# Make selected word to uppercase/lowercase\nveU\nveu\n# Swap case for selected word\nve~\n\n# paste current system's clipboard via register\n\"+p\n# select word and yank in system's clipboard\nve\"+y\n\n# To line [count] from top (Home) of window\nH\n# To Middle line of window\nM\n# To line [count] from bottom of window\nL\n\n## Searching\n# Search word at curser position\n*\n# Case insensitive search\n/PATTERN\\c\n\n## Movement\n# Scroll up\nCTRL-Y\n# Scroll down\nCTRL-E\n# Scroll to move the current line at ceter\nzz\n# Scroll to move the current line at top\nzt\n# Scroll to move the current line at botton\nzb\n\n# Jump beween brackets `(), [], {}`\n%\n\n# Move to next sentence\n)\n# Move to next paragraph\n}\n# Move to next section\n]]\n\n# Page up\nCRTL-u  or  CTRL-b\n# Page down\nCTRL-d  or  CTRL-f\n\n# Go to [count] Older cursor position in `:jumps`\nCTRL-O\n# Go to [count] newer cursor position in `:jumps`\nCTRL-I\n\n# Looks up the word at curser position in the manpages\nK\n\n# fold code\nzf # after selection\nzf{motion}\n# unfold code\nzo\n\n\nCommands\n# Search Replace `help :substitute`\n:[range]s[ubstitute]/{pattern}/{string}/[flags] [count] \n# Examples\n# Confirm each from enteir file\n:s/old/new/gc\n# Line range from 3 to 6\n:3,6s/old/new/g\n# from current line to end of file\n:.,$s/old/new/g\n# Relative lines\n:+2,-2/old/new/g\n# Enteir file\n:%s/old/new/g\n# First in current line\n:s/old/new/\n# Ignor case\n:s/old/new/gi\n\n# Comment and uncomment from 5 to 20\n:5,20s/^/#/\n:5,20s/^#//\n# Replace Multiple words\n:%s/apple\\|orange\\|mango/fruit/g\n\n# Insert the file below the cursor\n:read log.txt\n# Insert the stdout from the given command\n:read! echo $USER\n\n# copy last register into system clipboard\n:let @+=@\"\n\n# Switch to Hexeditor\n:%!xxd\n# Go back/Apply changes from the hex part\n:%!xxd -r\n# Set filtetype (syntax hilighting) to xxd\n:set filetype=xxd\n\n# Set foldmethod\n:set foldmethod=[manual|indent|syntax|diff|...]",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-network",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-network",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "Network",
+    "text": "Network\n# host - DNS lookup utility\nhost [options] {name} [server]\n# dig - DNS lookup utility\ndig [@server] {name} [type]",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-sripting",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-sripting",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "Scripting",
+    "text": "Scripting\n# Read  one  line from the standard input\nread VARIABLE\n\n# test - check file types and compare values\ntest EXPRESSION\n[ EXPRESSION ]\n# get result\necho $? # 0 -&gt; true; 1 -&gt; false; else -&gt; errcode also false\n\n# execute if true\ntest -f ./file.txt && echo \"file exist\"\n# execute if false\ntest -f ./file.txt || echo \"file doesn't exist\"",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-usermngr",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-usermngr",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "Usermanagement",
+    "text": "Usermanagement\n# id - print real and effective user and group IDs\nid [OPTION]... [USER]...\n\n# add user foobaa with home-dir (m) and Group (G) audio,video and shell (s) `/bin/bash`\nuseradd -mG audio,video -s /bin/bash foobaa\n# get passwd entry from foobaa\ngetent passwd foobaa\n# set password for foobaa\npasswd foobaa\n# expire current password for foobaa\npasswd -e foobaa\n\n# Print info about user account\npasswd -S foobaa\ncage -l foobaa\n\n# block an account\npasswd -l foobaa\n# unblock an account\npasswd -u foobaa\n\n# Create Group foogroup with gid 10000\ngroupadd -g 10000 foogroup\n# Add foobaa to group foogroup\nusermod -aG foogroup foobaa\n\n# permissions (1=x, 2=w, 4=r)\n# add execute permission to group and user\nchmod u+x,g+x file.sh\nchmod +110 file.sh\n# all permission user no write to else\nchmod u=xwr,go=xr file.sh\nchmod 755 file.sh\n\n# Remove a user\nuserdel username\n\n# Remove a user along with the home directory and mail spool\nsudo userdel --remove username\n\n# Prints the current umask\numask [-S]\n# Add read right to all in umask\numask a+r\numask",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-processes",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-processes",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "Prozesse, Sockets & System Demonds",
+    "text": "Prozesse, Sockets & System Demonds\n# run command as job\nCOMMAND &\n# list all jobs\njobs\n# kill job (see `man signal`)\nkill [-SIG_NUM] %JOB_ID\n\n# list all pid with given name\npidof bash\npgrep bash\n# kill process\nkill [-SIG_NUM] PROZESS_ID\n\n# process snapshot\n# current terminal processes\nps\n# list with \"nice\" value\nps -o pid,ni,cmd\n# user processes\nps x\n# all proxesses\nps aux\n# as a hierarchy\nps fax\n\n# Creating a Unix Socket\n# SOCK_STREAM\nnc --unixsock /tmp/demo-tcp.sock --listen\n# SOCK_DGRAM\nnc --unixsock /tmp/demo-udp.sock --udp --listen\n\n# connect to to listen socken\n# written text will be sendet bidirectional\nnc --unixsock /tmp/demo-tcp.sock\nnc --unixsock /tmp/demo-udp.sock -u\n\n# Sending message to journalctl\nlogger \"msg\"\nnc -U /run/sytemd/journal/dev-log -u\n\n# See journalctl\njournalctl -f\n\n# start process with certain nice value\n# -20 (most favorable to the process (only with root privilages)) to 19 (least favorable to the process)\n# default 10\nnice -NICE_VALUE COMAND\n\n# systemctl - Control the systemd system and service manager\n# show all running services\nsystemctl status\n# Start/Stop/Restart/Reload/Show the status of a service:\nsystemctl start|stop|restart|reload|status UNIT\n# Show the contents & absolute path of a unit file or edit it:\nsystemctl cat|edit UNIT\n# Enable/Disable a unit to be started on bootup:\nsystemctl enable|disable UNIT\n# Reload systemd, scan for new or changed units:\nsystemctl daemon-reload\n# Check if a unit is active/enabled/failed:\nsystemctl is-active|is-enabled|is-failed UNIT\n# List all service/socket/automount units filtering by running/failed state:\nsystemctl list-units --type service|socket|automount --state failed|running\n\n# set default target to boot into\nsystemctl set-default TARGET # e.g. graphical.target, multi-user.target, rescue.target,...\n# switch to a target\nsystemctl isolate TARGET\n# switch to default target\nsystemctl default\n\n# Display the dependency tree for a specific target\nsystemctl list-dependencies graphical.target",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
+    "objectID": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-common_vars",
+    "href": "qmd/linux-lpic-cheat-sheet.html#sec-lpic-common_vars",
+    "title": "Linux LPIC Cheat-Sheet",
+    "section": "Common Variables",
+    "text": "Common Variables\n# Lookup\n# printenv - print all or part of environment\nprintenv [OPTION] [VARIABLE]...\n\n# print all variables\nset # or\ndeclare\n\n# User\nPWD=/home/lumen\nLOGNAME=lumen\nUID=1000\nHOME=/home/lumen\nUSERNAME=some_user\nUSER=some_user\n\n# Environment\nSHELL=/bin/bash\nDESKTOP_SESSION=gnome\nEDITOR=/usr/bin/nvim\nXDG_SESSION_DESKTOP=gnome\nXDG_SESSION_TYPE=wayland\nLANG=en_US.UTF-8\nTERM=tmux-256color\nMANPAGER=nvim +Man!\nDISPLAY=:0\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/var/lib/snapd/snap/bin",
+    "crumbs": [
+      "Linux",
+      "Linux LPIC Cheat-Sheet"
+    ]
+  },
+  {
     "objectID": "LICENSE.html",
     "href": "LICENSE.html",
     "title": "Creative Commons Attribution-NonCommercial 4.0 International License",
