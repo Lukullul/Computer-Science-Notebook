@@ -4,8 +4,8 @@ project:
 csl: springer-lecture-notes-in-computer-science.csl
 
 book:
-  title: "TEMPLATE"
-  author: "JOHN DOE"
+  title: "Computer Science Notebook"
+  author: "Lukas Mensch"
   date: "2026-04-06"
   cover-image: images/notebook-50percent.png
   cover-image-alt: |
@@ -13,7 +13,7 @@ book:
     notebook, and a small potted plant under soft, diffused light.
   favicon: images/coffee-icon-64.png
   reader-mode: true
-  repo-url: https://github.com/JHON_DOE/REPO
+  repo-url: https://github.com/Lukullul/Computer-Science-Notebook
   page-footer:
     center: 
       - href: LICENSE.qmd
@@ -21,9 +21,7 @@ book:
     collapse-level: 1
     tools: 
       - icon: house
-        href: https://MY.WEBSIDE.COM
-      - icon: lightbulb
-        href: https://MY.WEBSIDE.COM/TEMPLATE/
+        href: https://github.com/Lukullul
   chapters:
     - index.qmd
 

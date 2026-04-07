@@ -1,4 +1,4 @@
-# Template {.unnumbered}
+# Home {.unnumbered}
 
 This is a Quarto notebook.
 

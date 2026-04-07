@@ -1,8 +1,8 @@
-# Notebook
+# Computer Science Notebook
 
-A template for a personal notebook created using Quarto.
+A personal notebook created using Quarto.
 
-This template is hardly inspired from this
+The structure of this project is hardly inspired from this
 [repository](https://github.com/ercbk/Data-Science-Notebook) created by Eric Book.
 
 ----------------------------------------------------------------------------------------------------
