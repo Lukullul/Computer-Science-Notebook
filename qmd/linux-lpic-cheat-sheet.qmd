@@ -4,7 +4,7 @@
 
 ### Add User {#sec-lpic-tldr-useradd}
 
-```bash
+``` bash
 # Create a new user with a home directory and set the default shell to bash
 sudo useradd -m [-G audio,video] -s /bin/bash newuser
 
@@ -19,7 +19,7 @@ sudo usermod -aG sudo newuser
 
 ### Partition and Mount File {#sec-lpic-tldr-part}
 
-```bash
+``` bash
 # Open the disk utility to partition a drive (e.g., the second disk /dev/sdb)
 sudo fdisk /dev/sdb
 # Open a help [m]enu:
@@ -47,7 +47,7 @@ sudo mount /dev/sdb3 /mnt/data_drive
 
 #### working with fdisk {#sec-lpic-tldr-part-fdisk}
 
-```bash
+``` bash
 $ sudo fdisk /dev/sdb
 
 Welcome to fdisk (util-linux 2.41).
@@ -88,10 +88,9 @@ sdb                     8:16   0   20G  0 disk
  
 ```
 
-
 ### Search files {#sec-lpic-tldr-part-search}
 
-```bash
+``` bash
 # Search for a file by its exact name starting from the root directory
 find / -name "syslog"
 
@@ -104,7 +103,7 @@ grep -rni "error" /var/log/ 2> /dev/null
 
 ### Zip, Unzip {#sec-lpic-tldr-part-zip}
 
-```bash
+``` bash
 # Compress Decompress
 gzip file.txt # replace file.txt with file.txt.gz use -k to keep the original
 gzip -d file.txt.gz # decompress
@@ -120,7 +119,7 @@ tar -xzvf backup_archive.tar.gz -C /path/to/destination
 
 ### Setup automount in `/etc/fstab` {#sec-lpic-tldr-part-automnt}
 
-```bash
+``` bash
 # Retrieve the unique UUID of the partition (crucial for stable mounting)
 sudo blkid /dev/sdb1
 
@@ -134,10 +133,9 @@ sudo vim /etc/fstab
 sudo mount -a
 ```
 
-
 ### generate ssh key and upload {#sec-lpic-tldr-setlocal}
 
-```bash
+``` bash
 # generate ssh key
 ssh-keygen -t ed25519 -a 32 -f ~/.ssh/filename
 # copy to remote
@@ -146,7 +144,7 @@ ssh-copy-id -i ~/.ssh/filename username@remote_host
 
 ### Set location {#sec-lpic-tldr-setlocal}
 
-```bash
+``` bash
 # in debian
 sudo dpkg-reconfigure locales
 # else
@@ -158,11 +156,9 @@ sudo /etc/locale.conf
 localectl status
 ```
 
-
-
 ## STDIN, STDOUT, STDERR {#sec-lpic-sdin_out}
 
-```bash
+``` bash
 COMMAND > FILE  # Makes a new or overwrites stdout to a file
 COMMAND >> FILE # Makes a new or appends stdout to a file
 # Same for STDERR
@@ -184,7 +180,7 @@ EOF
 
 ### Examples {#sec-lpic-sdin_out-example}
 
-```bash
+``` bash
 # uncompress img file and write to drive sdc
 gunzip < disk.img.gz > /dev/sdc
 
@@ -201,7 +197,7 @@ EOF
 
 ## Grundlegende Befehle {#sec-lpic-basiccmd}
 
-```bash
+``` bash
 # sort - sort lines of text files
 sort [OPTION]... [FILE]...
 
@@ -237,7 +233,7 @@ find [option] [starting-point...] [expression]
 
 ### One liner {#sec-lpic-basiccmd-oneliner}
 
-```bash
+``` bash
 # make parent directories as needed
 mkdir -p a/couple/of/dirs
 
@@ -292,10 +288,9 @@ echo rm file{1..4} # -> rm file1 file2 file3 file4
 diff --side-by-side --color=always <(ls -1 /proc/ -I "[[:digit:]]*" | sort) <(ls -1 /proc/1 | sort)
 ```
 
-
 ## Help {#sec-lpic-help}
 
-```bash
+``` bash
 # Display helpful information about builtin commands.
 help [OPTION] [command]
 
@@ -312,7 +307,7 @@ whereis [options] name...
 
 ## Package Manager {#sec-lpic-packagemngr}
 
-```bash
+``` bash
 # List all available packages
 dnf list
 apt list
@@ -336,7 +331,7 @@ sudo dpkg --install path/to/file.deb
 
 ## Filemanagement {#sec-lpic-filemngr}
 
-```bash
+``` bash
 # Make directory with needed parrentdir
 mkdir -p a/bunch/of/dirs
 
@@ -414,7 +409,7 @@ blkid /dev/sda
 
 ## Device Management {#sec-lpic-devicemngr}
 
-```bash
+``` bash
 # list devices
 lspci
 lshw [-short] [-class network,disk,cpu,...]
@@ -422,13 +417,11 @@ lsblk
 lsusb
 ```
 
-
-
 ## Editor {#sec-lpic-tldr-editor}
 
 ### Less {#sec-lpic-editor-less}
 
-```bash
+``` bash
 # Open content in default text editor
 v
 
@@ -454,7 +447,7 @@ less -N [FILE]
 
 #### Keybinds {#sec-lpic-editor-vim-keybinds}
 
-```bash
+``` bash
 
 
 ## Editing
@@ -532,11 +525,9 @@ zf{motion}
 zo
 ```
 
-
 #### Commands {#sec-lpic-editor-vim-commands}
 
-
-```bash
+``` bash
 # Search Replace `help :substitute`
 :[range]s[ubstitute]/{pattern}/{string}/[flags] [count] 
 # Examples
@@ -582,7 +573,7 @@ zo
 
 ## Network {#sec-lpic-network}
 
-```bash
+``` bash
 # host - DNS lookup utility
 host [options] {name} [server]
 # dig - DNS lookup utility
@@ -591,7 +582,7 @@ dig [@server] {name} [type]
 
 ## Scripting {#sec-lpic-sripting}
 
-```bash
+``` bash
 # Read  one  line from the standard input
 read VARIABLE
 
@@ -609,7 +600,7 @@ test -f ./file.txt || echo "file doesn't exist"
 
 ## Usermanagement {#sec-lpic-usermngr}
 
-```bash
+``` bash
 # id - print real and effective user and group IDs
 id [OPTION]... [USER]...
 
@@ -659,7 +650,7 @@ umask
 
 ## Prozesse, Sockets & System Demonds {#sec-lpic-processes}
 
-```bash
+``` bash
 # run command as job
 COMMAND &
 # list all jobs
@@ -735,11 +726,9 @@ systemctl default
 systemctl list-dependencies graphical.target
 ```
 
-
-
 ## Common Variables {#sec-lpic-common_vars}
 
-```bash
+``` bash
 # Lookup
 # printenv - print all or part of environment
 printenv [OPTION] [VARIABLE]...
@@ -767,5 +756,4 @@ TERM=tmux-256color
 MANPAGER=nvim +Man!
 DISPLAY=:0
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/var/lib/snapd/snap/bin
-
 ```
